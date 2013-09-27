@@ -81,7 +81,8 @@ $(BUILD_DIR)/packages/rpm/rpm-fuelmenu.done: \
                $(call find-files,$(BUILD_DIR)/repos/nailgun/fuelmenu)
 	sudo sh -c "$${SANDBOX_UP}"
 	sudo mkdir -p $(SANDBOX)/tmp/SOURCES/fuelmenu
-	cd $(BUILD_DIR)/repos/nailgun/fuelmenu && sudo python setup.py sdist -d $(SANDBOX)/tmp/SOURCES
+	sudo cp -r $(BUILD_DIR)/repos/nailgun/fuelmenu/* $(SANDBOX)/tmp/SOURCES/fuelmenu
+	cd $(SANDBOX)/tmp/SOURCES/fuelmenu && sudo python setup.py sdist -d $(SANDBOX)/tmp/SOURCES
 	sudo cp $(SOURCE_DIR)/packages/rpm/specs/fuelmenu.spec $(SANDBOX)/tmp
 	sudo chroot $(SANDBOX) rpmbuild -vv --define "_topdir /tmp" -ba /tmp/fuelmenu.spec
 	cp $(SANDBOX)/tmp/RPMS/noarch/fuelmenu-*.rpm $(BUILD_DIR)/packages/rpm/RPMS/x86_64/
