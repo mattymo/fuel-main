@@ -1,14 +1,10 @@
 #!/bin/bash
 
 function countdown() {
-  local i 
-  if [ $1 -lt 10 ]; then
-    i=" $i"
-  fi
-  printf %s "$1"
+  local i
   sleep 1
   for ((i=$1-1; i>=1; i--)); do
-    printf '\b\b%d' "$i"
+    printf '\b\b%%02d' "$i"
     sleep 1
   done
 }
@@ -41,7 +37,7 @@ fi
 hostname "$HOSTNAME"
 #Update motd for IP
 primary="$(grep mnbs_internal_interface= /etc/naily.facts | cut -d'=' -f2) "
-echo "sed -i \"s%\(^.*able on:\).*$%\1 http://\`ip address show $primary | awk '/inet / {print \$2}' | cut -d/ -f1 -\`:8000%\" /etc/issue" >>/etc/rc.local 
+echo "sed -i \"s%\(^.*able on:\).*$%\1 http://\`ip address show $primary | awk '/inet / {print \$2}' | cut -d/ -f1 -\`:8000%\" /etc/issue" >>/etc/rc.local
 sed -i "s%\(^.*able on:\).*$%\1 http://`ip address show $primary | awk '/inet / {print \$2}' | cut -d/ -f1 -`:8000%" /etc/issue
 
 puppet apply  /etc/puppet/modules/nailgun/examples/site.pp

@@ -270,6 +270,10 @@ cat > /root/.showfuelmenu << EOF
 showmenu=$showmenu
 EOF
 
+###Configure /etc/naily.facts and /etc/astute.yaml if showmenu=no
+if [[ "$showmenu" == "no" ];then
+  fuelmenu --save-only --iface=$device
+fi
 
 
 # Prepare custom /etc/issue logon banner and script for changing IP in it
