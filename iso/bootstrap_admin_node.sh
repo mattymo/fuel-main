@@ -22,10 +22,13 @@ if [[ "$showmenu" == "yes" || "$showmenu" == "YES" ]]; then
   #Give user 30 seconds to enter fuelmenu or else continue
   echo
   echo -n "${bold}${red}Press any key to enter Fuel Setup... "
-  countdown 30 & pid=$!
+  countdown 10 & pid=$!
   if ! read -s -n 1 -t 30; then
     echo
     echo -e "\n${normal}Skipping Fuel Setup..."
+    echo -n "Applying default Fuel setings..." 
+    fuelmenu --save-only --iface=eth0
+    echo "Done!"
   else
     kill "$pid"
     echo -e "\n${normal}Entering Fuel Setup..."
